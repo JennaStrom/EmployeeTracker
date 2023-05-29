@@ -1,5 +1,5 @@
 const inquirer = require("inquirer");
-const { listenerCount } = require("process");
+// const { listenerCount } = require("process");
 const db = require("./db/connection.js");
 
 function prompt() {
@@ -92,13 +92,88 @@ function addDepartment() {
     inquirer.prompt({
         type: "input",
         message: "What is the name of the department?",
-        name: "deptartment_name"
+        name: "name"
     }).then(function (res) {
-        db.promise().query("INSERT INTO department (name) VALUES (?)", [res.dpartment_name], function (err, res) {
+        db.promise().query("INSERT INTO department (name) VALUES (?)", [res.name], function (err, res) {
             if (err) throw err;
             console.table(res)
         }).then(() => prompt())
     })
-}
+};
+
+function addRole() {
+    inquirer.prompt([
+        {
+            type: "input",
+            message: "What is the title of the role you wold like to add?",
+            name: "roleTitle"
+        },
+        {
+            type: "input",
+            message: "What is the salary of the role?",
+            name: "roleSalary"
+        },
+        {
+            type: "input",
+            message: "What is the department ID number for this role?",
+            name: "deptID"
+        },
+    ]).then(function (res) {
+        db.promise().query("INSERT INTO role (title, salary, department_id) VALUES (?, ?, ?)", [res.roleTitle, res.roleSalary, res.deptID], function (err, res) {
+            if (err) throw err;
+            console.table(res)
+        }).then(() => prompt())
+    })
+};
+
+function addEmployee() {
+    inquirer.prompt([
+        {
+            type: "input",
+            message: "Please enter the first name of the new employee.",
+            name: "emp_first_name"
+        },
+        {
+            type: "input",
+            message: "Please enter the last name of the new employee.",
+            name: "emp_last_name"
+        },
+        {
+            type: "input",
+            message: "What is the employee's role id number?",
+            name: "emp_role_id"
+        },
+        {
+            type: "input",
+            message: "What is the manager id number?",
+            name:"emp_man_id"
+        }
+    ]).then(function (res) {
+        db.promise().query("INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?)", [res.emp_first_name, res.emp_last_name, res.emp_role_id, res.emp_man_id], function (err, res) {
+            if (err) throw err;
+            console.table(res)
+        }).then(() => prompt())
+    })
+};
+
+function updateEmployee() {
+    inquirer.prompt([
+        {
+            type: "input",
+            message: "Which employee's role would you like to update?",
+            name: "emp_update"
+        },
+        {
+            type: "input",
+            message: "What is their new role ID?",
+            name: "emp_role_update"
+        }
+    ]).then(function (res) {
+        db.promise().query("UPDATE employee SET (role_id=?) WHERE (first_name=?)", [res.emp_role_update, res.emp_update], function (err, res) {
+            if (err) throw err;
+            console.table(res)
+        }).then(() => prompt())
+    })
+};
 
 prompt();

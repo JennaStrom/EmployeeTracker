@@ -20,6 +20,13 @@
 ## Usage
   Run npm start and then follow the prompts for what you would like to do.   
   
+  Screenshots of the CLI application in use:
+  
+  <img width="1064" alt="EmployeeTrackerScreenshot1" src="https://github.com/JennaStrom/EmployeeTracker/assets/123525191/9c308bf4-7c42-4f0a-987f-72985ad7bdd5">
+<img width="1059" alt="EmployeeTrackerScreenshot2" src="https://github.com/JennaStrom/EmployeeTracker/assets/123525191/5c9ca6a8-eb41-4c6f-9a05-917e2fcb845d">
+<img width="987" alt="EmployeeTrackerScreenshot3" src="https://github.com/JennaStrom/EmployeeTracker/assets/123525191/cf9c8917-f7b6-4ae0-969b-dc4369f7c50c">
+
+Follow this link to watch a video walkthrough of the application: [Walkthrough video](https://drive.google.com/file/d/1oyGi47UuBFzmx971sG0b5qlz6EQl6WkY/view)
 
 ## License
   This application is covered by the [The MIT License](https://opensource.org/license/mit/)

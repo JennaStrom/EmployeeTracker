@@ -36,6 +36,22 @@ function prompt() {
                 {
                     name: "Update an Employee",
                     value: "update_employee"
+                },
+                {
+                    name: "Delete an Employee",
+                    value: "delete_employee"
+                },
+                {
+                    name: "Delete a Department",
+                    value: "delete_department"
+                },
+                {
+                    name: "Delete a Role",
+                    value: "delete_role"
+                },
+                {
+                    name: "Quit",
+                    value: "quit"
                 }
             ]
         }
@@ -62,6 +78,15 @@ function prompt() {
                 break;
             case "update_employee":
                 updateEmployee();
+                break;
+            case "delete_employee":
+                deleteEmployee();
+                break;
+            case "delete_department":
+                deleteDepartment();
+                break;
+            case "delete_role":
+                deleteRole();
                 break;
             default: quit();
         }
@@ -146,7 +171,7 @@ function addEmployee() {
         {
             type: "input",
             message: "What is the manager id number?",
-            name:"emp_man_id"
+            name: "emp_man_id"
         }
     ]).then(function (res) {
         db.promise().query("INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?)", [res.emp_first_name, res.emp_last_name, res.emp_role_id, res.emp_man_id], function (err, res) {
@@ -169,11 +194,55 @@ function updateEmployee() {
             name: "emp_role_update"
         }
     ]).then(function (res) {
-        db.promise().query("UPDATE employee SET (role_id=?) WHERE (first_name=?)", [res.emp_role_update, res.emp_update], function (err, res) {
+        db.promise().query("UPDATE employee SET role_id=? WHERE first_name=?", [res.emp_role_update, res.emp_update], function (err, res) {
             if (err) throw err;
             console.table(res)
         }).then(() => prompt())
     })
 };
+
+function deleteEmployee() {
+    inquirer.prompt({
+        type: "input",
+        message: "Which employee would you like to delete?",
+        name: "delete_employee"
+    }).then(function (res) {
+        db.promise().query("DELETE FROM employee WHERE first_name=?", [res.delete_employee], function (err, res) {
+            if (err) throw err;
+            console.table(res)
+        }).then(() => prompt())
+    })
+};
+
+function deleteDepartment() {
+    inquirer.prompt({
+        type: "input",
+        message: "Which Department would you like to delete?",
+        name: "delete_department"
+    }).then(function (res) {
+        db.promise().query("DELETE FROM department WHERE name=?", [res.delete_department], function (err, res) {
+            if (err) throw err;
+            console.table(res)
+        }).then(() => prompt())
+    })
+};
+
+function deleteRole() {
+    inquirer.prompt({
+        type: "input",
+        message: "Which Role would you like to delete?",
+        name: "delete_role"
+    }).then(function (res) {
+        db.promise().query("DELETE FROM role WHERE title=?", [res.delete_role], function (err, res) {
+            if (err) throw err;
+            console.table(res)
+        }).then(() => prompt())
+    })
+};
+
+
+function quit() {
+    process.exit();
+}
 
 prompt();
